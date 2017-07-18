@@ -3,11 +3,9 @@ package com.nicolasguo.express.controller;
 import java.util.Date;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.nicolasguo.express.condition.impl.ExpressCondition;
 import com.nicolasguo.express.entity.Express;
@@ -20,7 +18,7 @@ public class BaseAction {
 	@Resource(name = "expressService")
 	private ExpressService<Express, String> expressService;
 	
-	@RequestMapping("/index")
+	@RequestMapping("/admin")
 	public ModelAndView index(
 			@RequestParam(value = "pageNo", defaultValue = "1", required = false) int pageNo, HttpSession session) {
 		Page<Express> pageEntity = new Page<Express>();
@@ -35,7 +33,7 @@ public class BaseAction {
 		condition.setEndDate(new Date());
 		session.setAttribute("expressCondition", condition);
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("index");
+		mav.setViewName("admin");
 		mav.addObject("expressPage", expressService.findExpressByCondition(condition, pageEntity));
 		return mav;
 	}

@@ -18,51 +18,51 @@
 <link rel="alternate icon" type="image/png"
 	href="<%=basePath%>resources/i/favicon.png">
 <link rel="stylesheet" href="<%=basePath%>resources/css/amazeui.min.css" />
+<link rel="stylesheet" href="<%=basePath%>resources/css/admin.css" />
+<link rel="stylesheet" href="<%=basePath%>resources/css/amazeui.datatables.min.css" />
 </head>
 <body>
-	<div class="am-container">
-		<div class="am-g">
-			<div class="am-u-md-7 am-u-md-centered">
-				<div class="am-panel am-panel-default panel-login">
-					<div class="am-panel-hd">登录</div>
-					<!-- end of panel-heading -->
-					<div class="am-panel-bd">
-						<form class="am-form" id="login-form"
-							action="${pageContext.request.contextPath}/user/login.action"
-							method="POST">
-							<div class="am-text-center">
-								<img src="<%=basePath%>resources/i/logo.png" width="100"
-									height="100" />
-							</div>
-							<hr>
-							<!-- username field -->
-							<div class="am-form-group">
-								<label for="username">用户名:</label> <input type="text"
-									name="username" minlength="3" placeholder="输入用户名" class=""
-									id="username" value="admin" autofocus required />
-							</div>
-							<!-- password field -->
-							<div class="am-form-group">
-								<label for="password">密码:</label> <input type="password"
-									name="password" placeholder="输入密码" class="" value="admin" required />
-							</div>
-							<button type="submit"
-								class="am-btn am-btn-lg am-btn-primary am-btn-block">登录</button>
-						</form>
-					</div>
-					<!-- end of panel-body -->
-				</div>
-				<!-- end of panel -->
-			</div>
-		</div>
+	<header class="am-topbar am-topbar-inverse admin-header">
+	   <div class="am-topbar-brand">
+	       <strong>快递管理</strong>
+	   </div>
+	   
+	   <div class="am-collapse am-topbar-collapse">
+	       <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+	           <li class="am-dropdown" data-am-dropdown="">
+	               <a class="am-dropdown-toggle" data-am-dropdown-toggle="" href="javascript:;">
+	                   <span class="am-icon-users"></span>${sessionScope.LOGIN_USER.loginName} <span class="am-icon-caret-down"></span>
+	               </a>
+	               <ul class="am-dropdown-content">
+	                   <li><a href="#"><span class="am-icon-user"></span> 资料</a></li>
+	                   <li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
+	                   <li><a href="#"><span class="am-icon-power-off"></span> 退出</a></li>
+	               </ul>
+	           </li>
+	       </ul>
+	   </div>
+	</header>
+	
+	<div class="am-cf admin-main">
+	   <div class="admin-sidebar am-offcanvas">
+	       <div class="am-offcanvas-bar admin-offcanvas-bar">
+	           <ul class="am-list admin-sidebar-list">
+	               <li><a href="admin"><span class="am-icon-home"></span> 首页</a></li>
+	               <li><a href="${pageContext.request.contextPath}/customer/admin"><span class="am-icon-user"></span> 客户管理 </a></li>
+	               <li><a href="${pageContext.request.contextPath}/user/logout.action"><span class="am-icon-sign-out"></span> 注销</a></li>
+	           </ul>
+	       </div>
+	   </div>
 	</div>
+	
 	<script src="<%=basePath%>resources/js/jquery-1.12.4.min.js"></script>
 	<script src="<%=basePath%>resources/js/amazeui.min.js"></script>
+	<script src="<%=basePath%>resources/js/amazeui.datatables.min.js"></script>
 	<script src="<%=basePath%>resources/js/amazeui.dialog.min.js"></script>
 	<script>
 		var $requestUri = '${requestUri}';
 		$requestUri = $requestUri ? $requestUri
-				: '${pageContext.request.contextPath}/admin';
+				: '${pageContext.request.contextPath}/index';
 		$(function() {
 			var $form = $('#login-form');
 			var $group = $form.find('.am-form-group').last();

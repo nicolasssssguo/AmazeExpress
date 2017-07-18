@@ -32,7 +32,7 @@ public class UserAction {
 		condition.setPassword(password);
 		List<User> result = userService.findUserByCondition(condition);
 		if (result.size() > 0) {
-			session.setAttribute("LOGIN_USER", new User());
+			session.setAttribute("LOGIN_USER", result.get(0));
 			return new Result<String>(HttpStatus.OK.value(), null);
 		}
 		return new Result<String>(HttpStatus.BAD_REQUEST.value(), "用户名或密码错误");
