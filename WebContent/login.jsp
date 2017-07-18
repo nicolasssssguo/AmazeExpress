@@ -58,9 +58,11 @@
 	</div>
 	<script src="<%=basePath%>resources/js/jquery-1.12.4.min.js"></script>
 	<script src="<%=basePath%>resources/js/amazeui.min.js"></script>
+	<script src="<%=basePath%>resources/js/amazeui.dialog.min.js"></script>
 	<script>
 		var $requestUri = '${requestUri}';
-		$requestUri = $requestUri?$requestUri:'${pageContext.request.contextPath}/index';
+		$requestUri = $requestUri ? $requestUri
+				: '${pageContext.request.contextPath}/index';
 		$(function() {
 			var $form = $('#login-form');
 			var $group = $form.find('.am-form-group').last();
@@ -69,7 +71,9 @@
 			$form.validator({
 				// 是否使用 H5 原生表单验证，不支持浏览器会自动退化到 JS 验证
 				H5validation : false,
-
+				onValid: function(validity) {
+					$alert.hide();
+				},
 				submit : function() {
 					$.AMUI.progress.start();
 					$.ajax({
@@ -81,10 +85,11 @@
 							if (result.code == 200) {//验证成功
 								window.location.href = $requestUri;
 							} else if (result.code == 400) {//验证失败
-								$submit.popover({
-									theme : 'danger',
-									content : result.msg
-								});
+								if (!$alert.length) {
+							        $alert = $('<div class="am-text-danger"></div>').hide().
+							          appendTo($group);
+							      }
+							      $alert.html(result.msg).show();
 							}
 
 						}
