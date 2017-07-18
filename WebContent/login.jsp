@@ -18,6 +18,7 @@
 <link rel="alternate icon" type="image/png"
 	href="<%=basePath%>resources/i/favicon.png">
 <link rel="stylesheet" href="<%=basePath%>resources/css/amazeui.min.css" />
+<link rel="stylesheet" href="<%=basePath%>resources/css/animate.css" />
 </head>
 <body>
 	<div class="am-container">
@@ -66,14 +67,12 @@
 		$(function() {
 			var $form = $('#login-form');
 			var $group = $form.find('.am-form-group').last();
-			var $alert = $group.find('.am-alert');
 			var $submit = $form.find('.am-btn-primary');
+			var animating = false;
+		    var animation = 'am-animation-shake';
 			$form.validator({
 				// 是否使用 H5 原生表单验证，不支持浏览器会自动退化到 JS 验证
 				H5validation : false,
-				onValid: function(validity) {
-					$alert.hide();
-				},
 				submit : function() {
 					$.AMUI.progress.start();
 					$.ajax({
@@ -85,11 +84,20 @@
 							if (result.code == 200) {//验证成功
 								window.location.href = $requestUri;
 							} else if (result.code == 400) {//验证失败
-								if (!$alert.length) {
-							        $alert = $('<div class="am-text-danger"></div>').hide().
-							          appendTo($group);
+							      if (!animating) {
+							          animating = true;
+							          var dfd = new $.Deferred();
+							          if ($.AMUI.support.animation) {
+							        	  $form.addClass(animation).one($.AMUI.support.animation.end, function() {
+							                  $form.removeClass(animation);
+							                  dfd.resolve();
+							                });
+							          }
+							          
+							          $.when.apply(null).done(function() {
+							              animating = false;
+							            });
 							      }
-							      $alert.html(result.msg).show();
 							}
 
 						}
