@@ -24,7 +24,7 @@
 	<div class="am-container">
 		<div class="am-g">
 			<div class="am-u-md-7 am-u-md-centered">
-				<div class="am-panel am-panel-default panel-login">
+				<div class="am-panel am-panel-primary panel-login">
 					<div class="am-panel-hd">登录</div>
 					<!-- end of panel-heading -->
 					<div class="am-panel-bd">

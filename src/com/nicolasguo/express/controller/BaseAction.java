@@ -4,9 +4,12 @@ import java.util.Date;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
+
 import com.nicolasguo.express.condition.impl.ExpressCondition;
 import com.nicolasguo.express.entity.Express;
 import com.nicolasguo.express.entity.Page;
@@ -36,5 +39,10 @@ public class BaseAction {
 		mav.setViewName("admin");
 		mav.addObject("expressPage", expressService.findExpressByCondition(condition, pageEntity));
 		return mav;
+	}
+	
+	@RequestMapping(value = {"/{module}/{viewName}", "/{viewName}"})
+	public String viewResolver(@PathVariable String viewName){
+		return viewName;
 	}
 }

@@ -9,7 +9,7 @@
 <html>
 <head lang="zh-CN">
 <meta charset="UTF-8">
-<title>快递管理</title>
+<title>快递管理系统</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="format-detection" content="telephone=no">
@@ -25,7 +25,7 @@
 <body>
 	<header class="am-topbar am-topbar-inverse admin-header">
 		<div class="am-topbar-brand">
-			<strong>快递管理</strong>
+			<strong>快递管理系统</strong>
 		</div>
 
 		<div class="am-collapse am-topbar-collapse">
@@ -58,7 +58,7 @@
 					</a>
 						<ul class="am-list admin-sidebar-sub am-collapse am-in"
 							id="express-nav">
-							<li><a href="${pageContext.request.contextPath}/create_express"><i class="am-icon-archive"></i>
+							<li><a href="#/userAdd"><i class="am-icon-archive"></i>
 									录入快递 </a></li>
 							<li><a href="#/userList/0"><i class="am-icon-archive"></i>
 									快递列表 </a></li>
@@ -78,25 +78,43 @@
 			<div class="admin-content-body">
 				<div class="am-cf am-padding">
 					<div class="am-fl am-cf">
-						<strong class="am-text-primary am-text-lg">快递管理</strong> / <small>快递列表</small>
+						<strong class="am-text-primary am-text-lg">快递管理</strong> / <small>录入快递</small>
 					</div>
 				</div>
 				<div class="am-g">
-					<div class="am-u-sm-12">
-						<table
-							class="am-table am-table-bd am-table-bordered am-table-centered admin-content-table"
-							id="datatables">
-							<thead>
-								<tr class="am-primary">
-									<th>姓名</th>
-									<th>地址</th>
-									<th>手机号码</th>
-									<th>到达日期</th>
-									<th>状态</th>
-									<th>操作</th>
-								</tr>
-							</thead>
-						</table>
+					<div class="am-u-sm-6">
+						<div class="am-panel am-panel-primary">
+							<div class="am-panel-hd">录入快递</div>
+							<div class="am-panel-bd">
+								<form class="am-form" id="express-form"
+									action="${pageContext.request.contextPath}/express/create.action"
+									method="POST">
+									<div class="am-g">
+										<div class="am-u-sm-12">
+											<div class="am-form-group">
+												<label for="name">姓名:</label> <input type="text"
+													name="name" placeholder="输入姓名" />
+											</div>
+											<div class="am-form-group">
+												<label for="phone_number">手机号码:</label> <input type="text"
+													name="phone_number" placeholder="输入手机号码" />
+											</div>
+											<div class="am-form-group">
+												<label for="name">姓名:</label> <input type="text"
+													name="name" placeholder="输入姓名" />
+											</div>
+											<div class="am-form-group">
+												<label for="phone_number">手机号码:</label> <input type="text"
+													name="phone_number" placeholder="输入手机号码" />
+											</div>
+										</div>
+										<div class="am-u-sm-6">
+											
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
 					</div>
 				</div>
 
