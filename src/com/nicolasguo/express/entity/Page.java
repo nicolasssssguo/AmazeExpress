@@ -5,12 +5,12 @@ import java.util.List;
 public class Page<T> {
 
 	public static final int DEFAULT_PAGE_SIZE = 10;
-	
+
 	// 结果集
-	private List<T> list;
+	private List<T> data;
 
 	// 查询记录总数
-	private long totalRecords;
+	private long recordsTotal;
 
 	// 每页多少条记录
 	private int pageSize = DEFAULT_PAGE_SIZE;
@@ -22,7 +22,7 @@ public class Page<T> {
 	 * @return 总页数
 	 */
 	public int getTotalPages() {
-		return (int) ((totalRecords + pageSize - 1) / pageSize);
+		return (int) ((recordsTotal + pageSize - 1) / pageSize);
 	}
 
 	/**
@@ -73,20 +73,20 @@ public class Page<T> {
 		return getTotalPages();
 	}
 
-	public List<T> getList() {
-		return list;
+	public List<T> getData() {
+		return data;
 	}
 
-	public void setList(List<T> list) {
-		this.list = list;
+	public void setData(List<T> data) {
+		this.data = data;
 	}
 
-	public long getTotalRecords() {
-		return totalRecords;
+	public void setRecordsTotal(long recordsTotal) {
+		this.recordsTotal = recordsTotal;
 	}
 
-	public void setTotalRecords(long totalRecords) {
-		this.totalRecords = totalRecords;
+	public long getRecordsTotal() {
+		return recordsTotal;
 	}
 
 	public int getPageSize() {

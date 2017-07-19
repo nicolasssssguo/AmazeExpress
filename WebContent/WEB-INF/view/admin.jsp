@@ -51,7 +51,18 @@
 		<div class="admin-sidebar am-offcanvas">
 			<div class="am-offcanvas-bar admin-offcanvas-bar">
 				<ul class="am-list admin-sidebar-list">
-					<li><a href="admin"><span class="am-icon-home"></span> 首页</a></li>
+					<li class="am-panel"><a
+						data-am-collapse="{target: '#express-nav'}"> <i
+							class="am-icon-archive"></i> 快递管理 <i
+							class="am-icon-angle-right am-fr am-margin-right"></i>
+					</a>
+						<ul class="am-list admin-sidebar-sub am-collapse am-in"
+							id="express-nav">
+							<li><a href="#/userAdd"><i class="am-icon-archive"></i>
+									录入快递 </a></li>
+							<li><a href="#/userList/0"><i class="am-icon-archive"></i>
+									快递列表 </a></li>
+						</ul></li>
 					<li><a
 						href="${pageContext.request.contextPath}/customer/admin"><span
 							class="am-icon-user"></span> 客户管理 </a></li>
@@ -65,47 +76,30 @@
 
 		<div class="admin-content">
 			<div class="admin-content-body">
-				<div class="am-padding">
-					<div class="am-g am-margin-bottom">
-						<div class="am-u-sm-12 am-u-md-6">
-							<div class="am-btn-toolbar">
-								<div class="am-btn-group am-btn-group-xs">
-									<button type="button" class="am-btn am-btn-primary">
-										<span class="am-icon-plus"></span> 新增
-									</button>
-									<button type="button" class="am-btn am-btn-primary">
-										<span class="am-icon-save"></span> 保存
-									</button>
-									<button type="button" class="am-btn am-btn-primary">
-										<span class="am-icon-archive"></span> 审核
-									</button>
-									<button type="button" class="am-btn am-btn-primary">
-										<span class="am-icon-trash-o"></span> 删除
-									</button>
-								</div>
-							</div>
-						</div>
+				<div class="am-cf am-padding">
+					<div class="am-fl am-cf">
+						<strong class="am-text-primary am-text-lg">快递管理</strong> / <small>快递列表</small>
 					</div>
-					<div class="am-g">
-						<div class="am-u-sm-12">
-							<table
-								class="am-table am-table-bd am-table-bordered am-table-centered admin-content-table"
-								id="datatables">
-								<thead>
-									<tr class="am-primary">
-										<th>姓名</th>
-										<th>地址</th>
-										<th>手机号码</th>
-										<th>到达日期</th>
-										<th>状态</th>
-										<th>操作</th>
-									</tr>
-								</thead>
-							</table>
-						</div>
-					</div>
-				
 				</div>
+				<div class="am-g">
+					<div class="am-u-sm-12">
+						<table
+							class="am-table am-table-bd am-table-bordered am-table-centered admin-content-table"
+							id="datatables">
+							<thead>
+								<tr class="am-primary">
+									<th>姓名</th>
+									<th>地址</th>
+									<th>手机号码</th>
+									<th>到达日期</th>
+									<th>状态</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+
 			</div>
 			<div class="admin-content-footer"></div>
 		</div>
@@ -119,7 +113,8 @@
 	<script>
 		$(function() {
 			$('#datatables').DataTable({
-				"dom": 'tip'
+				"dom" : 'tip',
+				"order" : [ [ 1, 'asc' ] ]
 			});
 		});
 	</script>

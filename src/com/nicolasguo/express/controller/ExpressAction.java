@@ -154,8 +154,13 @@ public class ExpressAction {
 	}
 
 	@RequestMapping("/list.action")
-	public @ResponseBody List<Express> expressList() {
-		return expressService.findAll();
+	public @ResponseBody Page<Express> expressList() {
+		Page<Express> pageEntity = new Page<Express>();
+		ExpressCondition condition = new ExpressCondition();
+		condition.setStartDate(new Date());
+		condition.setEndDate(new Date());
+		pageEntity = expressService.findExpressByCondition(condition, pageEntity);
+		return pageEntity;
 	}
 
 	@RequestMapping("/sign.action")

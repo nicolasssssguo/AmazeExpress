@@ -113,8 +113,8 @@ public class BaseEntityDaoImpl<T> implements IBaseEntityDao<T> {
 				.setFirstResult(page.getPageSize() * (page.getPageNo() - 1))
 				.setMaxResults(page.getPageSize())
 				.list();
-		page.setTotalRecords(count());
-		page.setList(result);
+		page.setRecordsTotal(count());
+		page.setData(result);
 		return page;
 	}
 
@@ -134,8 +134,8 @@ public class BaseEntityDaoImpl<T> implements IBaseEntityDao<T> {
 				.setFirstResult(page.getPageSize() * (page.getPageNo() - 1))
 				.setMaxResults(page.getPageSize())
 				.list();
-		page.setTotalRecords(count(condition));
-		page.setList(result);
+		page.setRecordsTotal(count(condition));
+		page.setData(result);
 		return page;
 	}
 	
