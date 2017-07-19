@@ -96,19 +96,19 @@
 										<div class="am-u-sm-12">
 											<div class="am-form-group">
 												<label for="name">姓名:</label> <input type="text"
-													name="name" placeholder="输入姓名" />
+													name="name" minlength="3" placeholder="输入姓名" required />
 											</div>
 											<div class="am-form-group">
-												<label for="phone_number">手机号码:</label> <input type="text"
-													name="phone_number" placeholder="输入手机号码" />
+												<label for="phone_number">手机号码:</label> <input class="js-pattern-mobile" type="text"
+													name="phone_number" placeholder="输入手机号码" required />
 											</div>
 											<div class="am-form-group">
-												<label for="name">地址:</label> <select name="area" placeholder="地址"></select>
+												<label for="name">地址:</label> <select class="area" name="area" placeholder="地址" data-parent="350681110000" required></select>
 											</div>
 											<div class="am-form-group">
 												<label for="phone_number">日期:</label>
 												<div class="am-input-group date">
-												  <input type="text" class="am-form-field" readonly>
+												  <input class="am-form-field" name="arrive_date" type="text" readonly required>
 												  <span class="am-input-group-label add-on"><i class="icon-th am-icon-calendar"></i></span>
 												</div>
 											</div>
@@ -133,16 +133,50 @@
 	<script src="<%=basePath%>resources/js/amazeui.datetimepicker.min.js"></script>
 	<script src="<%=basePath%>resources/js/locales/amazeui.datetimepicker.zh-CN.js"></script>
 	<script src="<%=basePath%>resources/js/amazeui.dialog.min.js"></script>
+	<script src="<%=basePath%>resources/js/area.js"></script>
 	<script>
+	if ($.AMUI && $.AMUI.validator) {
+	    $.AMUI.validator.patterns.mobile = /^1((3|5|8){1}\d{1}|70)\d{8}$/;
+	  }
 		$(function() {
-			$('.date').datetimepicker({
-				language:  'zh-CN',
-				format: 'yyyy-mm-dd',
-				autoclose: true,
-				todayBtn: true,
-				endDate:new Date()
-			}).datetimepicker('update', new Date());
+			$select = $('select.area');
+			var parent = $select.attr('data-parent');
+			$.each(area, function(index, data){
+				if(data.parent == parent){
+					var $option = $('<option></option>');
+					$option.text(data.name);
+					$select.append($option);
+				}
+			});
+			
+			var $form = $('#express-form');
+			$form.validator({
+				// 是否使用 H5 原生表单验证，不支持浏览器会自动退化到 JS 验证
+				H5validation : false,
+				submit : function() {
+					var formValidity = this.isFormValid();
+					if(formValidity) {
+						$.ajax({
+							type : 'POST',
+							url : $form.attr('action'),
+							data : $form.serialize(),
+							success : function(result) {
+								
+							}
+						});
+					}
+					return false;
+				}
+			});
 		});
+		$('.date').datetimepicker({
+			language:  'zh-CN',
+			format: 'yyyy-mm-dd',
+			autoclose: true,
+			todayBtn: true,
+			endDate:new Date()
+		}).datetimepicker('update', new Date());
+		
 	</script>
 </body>
 </html>

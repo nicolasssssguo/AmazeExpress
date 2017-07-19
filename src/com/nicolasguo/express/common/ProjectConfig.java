@@ -22,11 +22,6 @@ public class ProjectConfig {
 		return new BaseEntityDaoImpl<User>(User.class);
 	}
 	
-	@Bean(name = "areaDao")
-	public IBaseEntityDao<Area> generateAreaDao(){
-		return new BaseEntityDaoImpl<Area>(Area.class);
-	}
-	
 	@Bean(name = "expressDao")
 	public IBaseEntityDao<Express> generateExpressDao(){
 		return new BaseEntityDaoImpl<Express>(Express.class);

@@ -14,7 +14,7 @@ public class Express extends BaseEntityObject {
 
 	private Customer recipient;
 
-	private Area dest;
+	private String area;
 
 	private int status;
 
@@ -31,13 +31,13 @@ public class Express extends BaseEntityObject {
 		this.recipient = recipient;
 	}
 
-	@ManyToOne
-	public Area getDest() {
-		return dest;
+	@Column
+	public String getArea() {
+		return area;
 	}
 
-	public void setDest(Area dest) {
-		this.dest = dest;
+	public void setArea(String area) {
+		this.area = area;
 	}
 
 	@Column

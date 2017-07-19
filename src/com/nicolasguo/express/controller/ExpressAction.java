@@ -31,6 +31,7 @@ import com.nicolasguo.express.entity.Page;
 import com.nicolasguo.express.service.AreaService;
 import com.nicolasguo.express.service.CustomerService;
 import com.nicolasguo.express.service.ExpressService;
+import com.nicolasguo.express.util.Constants;
 import com.nicolasguo.express.util.DateEditor;
 import com.nicolasguo.express.util.ExcelUtil;
 import com.nicolasguo.express.util.UUID;
@@ -42,9 +43,6 @@ public class ExpressAction {
 	@Resource(name = "expressService")
 	private ExpressService<Express, String> expressService;
 
-	@Resource(name = "areaService")
-	private AreaService<Area, String> areaService;
-
 	@Resource(name = "customerService")
 	private CustomerService<Customer, String> customerService;
 
@@ -53,8 +51,7 @@ public class ExpressAction {
 		binder.registerCustomEditor(Date.class, new DateEditor());
 	}
 
-	private Customer retrieveRecipient(String phoneNumber, String name, String areacode) {
-		Area area = areaService.findAreaByProperty("code", areacode).get(0);
+	private Customer retrieveRecipient(String phoneNumber, String name, String area) {
 		List<Customer> customerList = customerService.findCustomerByProperty("phoneNumber", phoneNumber);
 		Customer recipient = null;
 		if (customerList.size() == 0) {
@@ -73,21 +70,15 @@ public class ExpressAction {
 
 	@RequestMapping("/create.action")
 	public @ResponseBody String createExpress(@RequestParam("name") String name,
-			@RequestParam("phoneNumber") String phoneNumber, @RequestParam("area") String areacode,
-			@RequestParam("arriveDate") Date arriveDate, @RequestParam("status") int status) throws ParseException {
-		Area area = areaService.findAreaByProperty("code", areacode).get(0);
-		Customer recipient = retrieveRecipient(phoneNumber, name, areacode);
+			@RequestParam("phone_number") String phoneNumber, @RequestParam("area") String area,
+			@RequestParam("arrive_date") Date arriveDate) throws ParseException {
+		Customer recipient = retrieveRecipient(phoneNumber, name, area);
 		Express express = new Express();
 		express.setId(UUID.generateUUID());
 		express.setCreateTime(new Date());
-		express.setDest(area);
+		express.setArea(area);
 		express.setRecipient(recipient);
-		if (status == 0) {
-			express.setSignTime(null);
-		} else if (status != express.getStatus()) {
-			express.setSignTime(new Date());
-		}
-		express.setStatus(status);
+		express.setStatus(Constants.NOT_SIGN);
 		express.setArriveDate(arriveDate);
 		expressService.saveExpress(express);
 		return "create";
@@ -95,13 +86,12 @@ public class ExpressAction {
 
 	@RequestMapping("/update.action")
 	public @ResponseBody String updateExpress(@RequestParam("id") String id, @RequestParam("name") String name,
-			@RequestParam("phoneNumber") String phoneNumber, @RequestParam("area") String areacode,
+			@RequestParam("phoneNumber") String phoneNumber, @RequestParam("area") String area,
 			@RequestParam("arriveDate") Date arriveDate, @RequestParam("status") int status) throws ParseException {
-		Area area = areaService.findAreaByProperty("code", areacode).get(0);
-		Customer recipient = retrieveRecipient(phoneNumber, name, areacode);
+		Customer recipient = retrieveRecipient(phoneNumber, name, area);
 		Express express = expressService.getExpress(id);
 		if (express != null) {
-			express.setDest(area);
+			express.setArea(area);
 			express.setRecipient(recipient);
 			if (status == 0) {
 				express.setSignTime(null);
@@ -214,7 +204,7 @@ public class ExpressAction {
 			Map<String, Object> mapValue = new HashMap<String, Object>();
 			mapValue.put("rownum", cnt + 1);
 			mapValue.put("name", express.getRecipient().getName());
-			mapValue.put("dest", express.getDest().getName());
+			mapValue.put("area", express.getArea());
 			mapValue.put("phoneNumber", express.getRecipient().getPhoneNumber());
 			mapValue.put("status", express.getStatus() == 1 ? "已签收" : "未签收");
 			listmap.add(mapValue);

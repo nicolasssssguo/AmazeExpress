@@ -31,9 +31,6 @@ public class CustomerAction {
 	@Resource(name = "customerService")
 	private CustomerService<Customer, String> customerService;
 
-	@Resource(name = "areaService")
-	private AreaService<Area, String> areaService;
-
 	@Resource(name = "expressService")
 	private ExpressService<Express, String> expressService;
 
@@ -51,11 +48,10 @@ public class CustomerAction {
 
 	@RequestMapping(value = "/create.action", produces = "text/html;charset=UTF-8")
 	public @ResponseBody String createCustomer(@RequestParam("name") String name,
-			@RequestParam("phoneNumber") String phoneNumber, @RequestParam("area") String areacode) {
+			@RequestParam("phoneNumber") String phoneNumber, @RequestParam("area") String area) {
 		String message = "success";
 		List<Customer> customerList = customerService.findCustomerByProperty("phoneNumber", phoneNumber);
 		if (customerList.size() == 0) {
-			Area area = areaService.findAreaByProperty("code", areacode).get(0);
 			Customer customer = new Customer();
 			customer.setId(UUID.generateUUID());
 			customer.setCreateTime(new Date());
@@ -71,7 +67,7 @@ public class CustomerAction {
 
 	@RequestMapping(value = "/update.action", produces = "text/html;charset=UTF-8")
 	public @ResponseBody String updateCustomer(@RequestParam("id") String id, @RequestParam("name") String name,
-			@RequestParam("phoneNumber") String phoneNumber, @RequestParam("area") String areacode) {
+			@RequestParam("phoneNumber") String phoneNumber, @RequestParam("area") String area) {
 		String message = "success";
 		Customer customer = customerService.getCustomer(id);
 		if (customer != null) {
@@ -83,7 +79,6 @@ public class CustomerAction {
 					return message;
 				}
 			}
-			Area area = areaService.findAreaByProperty("code", areacode).get(0);
 			customer.setModifyTime(new Date());
 			customer.setName(name);
 			customer.setArea(area);

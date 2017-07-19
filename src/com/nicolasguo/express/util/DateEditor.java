@@ -11,14 +11,14 @@ public class DateEditor extends PropertyEditorSupport {
 
 	@Override
 	public void setAsText(String text) throws IllegalArgumentException {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date = null;
 		try {
 			if (StringUtils.isNotBlank(text)) {
 				date = format.parse(text);
 			}
 		} catch (ParseException e) {
-			format = new SimpleDateFormat("yyyy/MM/dd");
+			format = new SimpleDateFormat("yyyy-MM-dd");
 			try {
 				date = format.parse(text);
 			} catch (ParseException e1) {

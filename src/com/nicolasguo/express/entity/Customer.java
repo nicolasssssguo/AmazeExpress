@@ -2,7 +2,6 @@ package com.nicolasguo.express.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -13,7 +12,7 @@ public class Customer extends BaseEntityObject {
 
 	private String phoneNumber;
 
-	private Area area;
+	private String area;
 
 	@Column(length = 255)
 	public String getName() {
@@ -33,17 +32,12 @@ public class Customer extends BaseEntityObject {
 		this.phoneNumber = phoneNumber;
 	}
 
-	@ManyToOne
-	public Area getArea() {
+	@Column
+	public String getArea() {
 		return area;
 	}
 
-	public void setArea(Area area) {
+	public void setArea(String area) {
 		this.area = area;
-	}
-
-	@Override
-	public String toString() {
-		return area.getName()+" "+getName()+" "+getPhoneNumber();
 	}
 }

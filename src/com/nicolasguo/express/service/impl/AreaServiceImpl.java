@@ -2,19 +2,13 @@ package com.nicolasguo.express.service.impl;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-
 import com.nicolasguo.express.condition.impl.AreaCondition;
 import com.nicolasguo.express.dao.IBaseEntityDao;
 import com.nicolasguo.express.entity.Area;
 import com.nicolasguo.express.service.AreaService;
 
-@Service("areaService")
 public class AreaServiceImpl implements AreaService<Area, String> {
 
-	@Resource(name = "areaDao")
 	IBaseEntityDao<Area> areaDao;
 
 	@Override

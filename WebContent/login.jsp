@@ -74,33 +74,37 @@
 				// 是否使用 H5 原生表单验证，不支持浏览器会自动退化到 JS 验证
 				H5validation : false,
 				submit : function() {
-					$.AMUI.progress.start();
-					$.ajax({
-						type : 'POST',
-						url : $form.attr('action'),
-						data : $form.serialize(),
-						success : function(result) {
-							$.AMUI.progress.done();
-							if (result.code == 200) {//验证成功
-								window.location.href = $requestUri;
-							} else if (result.code == 400) {//验证失败
-							      if (!animating) {
-							          animating = true;
-							          var dfd = new $.Deferred();
-							          if ($.AMUI.support.animation) {
-							        	  $form.addClass(animation).one($.AMUI.support.animation.end, function() {
-							                  $form.removeClass(animation);
-							                  dfd.resolve();
-							                });
-							          }
-							          
-							          $.when.apply(null).done(function() {
-							              animating = false;
-							            });
-							      }
+					var formValidity = this.isFormValid();
+					if(formValidity) {
+						$.AMUI.progress.start();
+						$.ajax({
+							type : 'POST',
+							url : $form.attr('action'),
+							data : $form.serialize(),
+							success : function(result) {
+								$.AMUI.progress.done();
+								if (result.code == 200) {//验证成功
+									window.location.href = $requestUri;
+								} else if (result.code == 400) {//验证失败
+								      if (!animating) {
+								          animating = true;
+								          var dfd = new $.Deferred();
+								          if ($.AMUI.support.animation) {
+								        	  $form.addClass(animation).one($.AMUI.support.animation.end, function() {
+								                  $form.removeClass(animation);
+								                  dfd.resolve();
+								                });
+								          }
+								          
+								          $.when.apply(null).done(function() {
+								              animating = false;
+								            });
+								      }
+								}
 							}
-
-						}
+						});
+					}, function() {
+						
 					});
 					return false;
 				}
