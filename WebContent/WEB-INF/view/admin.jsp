@@ -51,12 +51,13 @@
 		<div class="admin-sidebar am-offcanvas">
 			<div class="am-offcanvas-bar admin-offcanvas-bar">
 				<ul class="am-list admin-sidebar-list">
+				    <li><a href="${pageContext.request.contextPath}/admin"><span class="am-icon-home"></span> 首页</a></li>
 					<li class="am-panel"><a
 						data-am-collapse="{target: '#express-nav'}"> <i
 							class="am-icon-archive"></i> 快递管理 <i
 							class="am-icon-angle-right am-fr am-margin-right"></i>
 					</a>
-						<ul class="am-list admin-sidebar-sub am-collapse am-in"
+						<ul class="am-list admin-sidebar-sub am-collapse"
 							id="express-nav">
 							<li><a href="${pageContext.request.contextPath}/create_express"><i class="am-icon-archive"></i>
 									录入快递 </a></li>

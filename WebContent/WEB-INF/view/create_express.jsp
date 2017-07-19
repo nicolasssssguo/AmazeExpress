@@ -21,6 +21,8 @@
 <link rel="stylesheet" href="<%=basePath%>resources/css/admin.css" />
 <link rel="stylesheet"
 	href="<%=basePath%>resources/css/amazeui.datatables.min.css" />
+<link rel="stylesheet"
+    href="<%=basePath%>resources/css/amazeui.datetimepicker.css" />
 </head>
 <body>
 	<header class="am-topbar am-topbar-inverse admin-header">
@@ -51,6 +53,7 @@
 		<div class="admin-sidebar am-offcanvas">
 			<div class="am-offcanvas-bar admin-offcanvas-bar">
 				<ul class="am-list admin-sidebar-list">
+				    <li><a href="${pageContext.request.contextPath}/admin"><span class="am-icon-home"></span> 首页</a></li>
 					<li class="am-panel"><a
 						data-am-collapse="{target: '#express-nav'}"> <i
 							class="am-icon-archive"></i> 快递管理 <i
@@ -82,7 +85,7 @@
 					</div>
 				</div>
 				<div class="am-g">
-					<div class="am-u-sm-6">
+					<div class="am-u-sm-6 am-u-sm-centered">
 						<div class="am-panel am-panel-primary">
 							<div class="am-panel-hd">录入快递</div>
 							<div class="am-panel-bd">
@@ -100,16 +103,16 @@
 													name="phone_number" placeholder="输入手机号码" />
 											</div>
 											<div class="am-form-group">
-												<label for="name">姓名:</label> <input type="text"
-													name="name" placeholder="输入姓名" />
+												<label for="name">地址:</label> <select name="area" placeholder="地址"></select>
 											</div>
 											<div class="am-form-group">
-												<label for="phone_number">手机号码:</label> <input type="text"
-													name="phone_number" placeholder="输入手机号码" />
+												<label for="phone_number">日期:</label>
+												<div class="am-input-group date">
+												  <input type="text" class="am-form-field" readonly>
+												  <span class="am-input-group-label add-on"><i class="icon-th am-icon-calendar"></i></span>
+												</div>
 											</div>
-										</div>
-										<div class="am-u-sm-6">
-											
+											<button class="am-btn am-btn-primary am-btn-lg am-btn-block" type="submit">录入</button>
 										</div>
 									</div>
 								</form>
@@ -127,13 +130,18 @@
 	<script src="<%=basePath%>resources/js/jquery-1.12.4.min.js"></script>
 	<script src="<%=basePath%>resources/js/amazeui.min.js"></script>
 	<script src="<%=basePath%>resources/js/amazeui.datatables.min.js"></script>
+	<script src="<%=basePath%>resources/js/amazeui.datetimepicker.min.js"></script>
+	<script src="<%=basePath%>resources/js/locales/amazeui.datetimepicker.zh-CN.js"></script>
 	<script src="<%=basePath%>resources/js/amazeui.dialog.min.js"></script>
 	<script>
 		$(function() {
-			$('#datatables').DataTable({
-				"dom" : 'tip',
-				"order" : [ [ 1, 'asc' ] ]
-			});
+			$('.date').datetimepicker({
+				language:  'zh-CN',
+				format: 'yyyy-mm-dd',
+				autoclose: true,
+				todayBtn: true,
+				endDate:new Date()
+			}).datetimepicker('update', new Date());
 		});
 	</script>
 </body>
