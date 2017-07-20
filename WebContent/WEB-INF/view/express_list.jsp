@@ -22,6 +22,8 @@
 <link rel="stylesheet"
 	href="<%=basePath%>resources/css/amazeui.datatables.min.css" />
 <link rel="stylesheet"
+	href="<%=basePath%>resources/css/buttons.datatables.min.css" />
+<link rel="stylesheet"
     href="<%=basePath%>resources/css/amazeui.datetimepicker.css" />
 </head>
 <body>
@@ -111,6 +113,7 @@
 	<script src="<%=basePath%>resources/js/jquery-1.12.4.min.js"></script>
 	<script src="<%=basePath%>resources/js/amazeui.min.js"></script>
 	<script src="<%=basePath%>resources/js/amazeui.datatables.min.js"></script>
+	<script src="<%=basePath%>resources/js/datatables.buttons.min.js"></script>
 	<script src="<%=basePath%>resources/js/amazeui.datetimepicker.min.js"></script>
 	<script src="<%=basePath%>resources/js/locales/amazeui.datetimepicker.zh-CN.js"></script>
 	<script src="<%=basePath%>resources/js/amazeui.dialog.min.js"></script>
@@ -118,8 +121,22 @@
 	<script>
 	$(function() {
         $('#datatables').DataTable({
-            'dom' : 'tip',
+        	'dom': 'Bfrtip',
+            "processing": true,
+            "serverSide": true,
             'ajax' : '${pageContext.request.contextPath}/express/list.action',
+            'buttons':[{
+            	text: '批量删除',
+			    action: function ( e, dt, node, config ) {
+			        
+			    }
+            },
+            {
+            	text: '批量签收',
+            	action: function ( e, dt, node, config ) {
+            	
+            	}
+            }],
             'columns':[
             	{'data':'recipient.name'},
             	{'data':'area'},

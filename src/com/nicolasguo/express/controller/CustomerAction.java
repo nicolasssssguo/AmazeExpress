@@ -35,9 +35,9 @@ public class CustomerAction {
 	private ExpressService<Express, String> expressService;
 
 	@RequestMapping("/index")
-	public ModelAndView index(@RequestParam(value = "pageNo", defaultValue = "1", required = false) int pageNo) {
+	public ModelAndView index(@RequestParam(value = "pageNo", defaultValue = "01", required = false) int start) {
 		Page<Customer> pageEntity = new Page<Customer>();
-		pageEntity.setPageNo(pageNo);
+		pageEntity.setStart(start);
 		CustomerCondition condition = new CustomerCondition();
 		pageEntity = customerService.findCustomerByCondition(condition, pageEntity);
 		ModelAndView mav = new ModelAndView();
@@ -125,9 +125,9 @@ public class CustomerAction {
 
 	@RequestMapping("/search.action")
 	public ModelAndView searchCustomer(@RequestParam(value="name", required=false) String name, @RequestParam String phoneNumber,
-			@RequestParam(value = "pageNo", defaultValue = "1", required = false) int pageNo) {
+			@RequestParam(value = "pageNo", defaultValue = "0", required = false) int start) {
 		Page<Customer> pageEntity = new Page<Customer>();
-		pageEntity.setPageNo(pageNo);
+		pageEntity.setStart(start);
 		CustomerCondition condition = new CustomerCondition();
 		condition.setName(name);
 		condition.setPhoneNumber(phoneNumber);

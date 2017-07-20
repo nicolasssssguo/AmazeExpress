@@ -125,7 +125,7 @@ public class ExpressAction {
 			@RequestParam(value = "endDate", required = false) Date endDate,
 			@RequestParam(value = "phoneNumber", required = false) String phoneNumber,
 			@RequestParam(value = "status", required = false) Integer status,
-			@RequestParam(value = "pageNo", required = false, defaultValue = "1") int pageNo, HttpSession session) throws ParseException {
+			@RequestParam(value = "start", required = false, defaultValue = "0") int start, HttpSession session) throws ParseException {
 		ExpressCondition condition = new ExpressCondition();
 		if (startDate != null) {
 			condition.setStartDate(startDate);
@@ -138,7 +138,7 @@ public class ExpressAction {
 		condition.setArea(area);
 		session.setAttribute("expressCondition", condition);
 		Page<Express> pageEntity = new Page<Express>();
-		pageEntity.setPageNo(pageNo);
+		pageEntity.setStart(start);
 		pageEntity = expressService.findExpressByCondition(condition, pageEntity);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("index");
@@ -147,8 +147,9 @@ public class ExpressAction {
 	}
 
 	@RequestMapping("/list.action")
-	public @ResponseBody Page<Express> expressList() {
+	public @ResponseBody Page<Express> expressList(@RequestParam(value = "start", required = false, defaultValue = "0") int start) {
 		Page<Express> pageEntity = new Page<Express>();
+		pageEntity.setStart(start);
 		ExpressCondition condition = new ExpressCondition();
 		condition.setStartDate(new Date());
 		condition.setEndDate(new Date());

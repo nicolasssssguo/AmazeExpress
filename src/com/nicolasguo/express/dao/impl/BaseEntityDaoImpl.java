@@ -110,8 +110,8 @@ public class BaseEntityDaoImpl<T> implements IBaseEntityDao<T> {
 	public Page<T> findAll(Page<T> page) {
 		String queryString = "from " + entityClass.getSimpleName() + " order by createTime desc";
 		List<T> result = openSession().createQuery(queryString)
-				.setFirstResult(page.getPageSize() * (page.getPageNo() - 1))
-				.setMaxResults(page.getPageSize())
+				.setFirstResult(page.getStart())
+				.setMaxResults(page.getLength())
 				.list();
 		page.setRecordsTotal(count());
 		page.setData(result);
@@ -131,8 +131,8 @@ public class BaseEntityDaoImpl<T> implements IBaseEntityDao<T> {
 	public Page<T> findByCondition(HibernateCondition condition, Page<T> page) {
 		List<T> result = condition.getCriteria()
 				.getExecutableCriteria(openSession())
-				.setFirstResult(page.getPageSize() * (page.getPageNo() - 1))
-				.setMaxResults(page.getPageSize())
+				.setFirstResult(page.getStart())
+				.setMaxResults(page.getLength())
 				.list();
 		page.setRecordsTotal(count(condition));
 		page.setData(result);

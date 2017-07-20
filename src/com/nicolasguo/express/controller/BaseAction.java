@@ -23,9 +23,9 @@ public class BaseAction {
 	
 	@RequestMapping("/admin")
 	public ModelAndView index(
-			@RequestParam(value = "pageNo", defaultValue = "1", required = false) int pageNo, HttpSession session) {
+			@RequestParam(value = "start", defaultValue = "0", required = false) int start, HttpSession session) {
 		Page<Express> pageEntity = new Page<Express>();
-		pageEntity.setPageNo(pageNo);
+		pageEntity.setStart(start);
 		/*Calendar today = Calendar.getInstance();
         today.setTime(new Date());
         today.set(Calendar.HOUR_OF_DAY, 0);
