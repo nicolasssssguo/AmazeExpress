@@ -15,10 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,6 +30,7 @@ import com.nicolasguo.express.entity.Area;
 import com.nicolasguo.express.entity.Customer;
 import com.nicolasguo.express.entity.Express;
 import com.nicolasguo.express.entity.Page;
+import com.nicolasguo.express.entity.Result;
 import com.nicolasguo.express.service.AreaService;
 import com.nicolasguo.express.service.CustomerService;
 import com.nicolasguo.express.service.ExpressService;
@@ -68,8 +71,8 @@ public class ExpressAction {
 		return recipient;
 	}
 
-	@RequestMapping("/create.action")
-	public @ResponseBody String createExpress(@RequestParam("name") String name,
+	@RequestMapping(value = "/create.action", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+	public @ResponseBody Result<String> createExpress(@RequestParam("name") String name,
 			@RequestParam("phone_number") String phoneNumber, @RequestParam("area") String area,
 			@RequestParam("arrive_date") Date arriveDate) throws ParseException {
 		Customer recipient = retrieveRecipient(phoneNumber, name, area);
@@ -81,7 +84,7 @@ public class ExpressAction {
 		express.setStatus(Constants.NOT_SIGN);
 		express.setArriveDate(arriveDate);
 		expressService.saveExpress(express);
-		return "create";
+		return new Result<String>(HttpStatus.OK.value(), null);
 	}
 
 	@RequestMapping("/update.action")

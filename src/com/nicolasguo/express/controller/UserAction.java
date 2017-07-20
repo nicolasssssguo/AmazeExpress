@@ -25,8 +25,7 @@ public class UserAction {
 	private UserService<User, String> userService;
 
 	@RequestMapping(value = "/login.action", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
-	@ResponseBody
-	public Result<String> login(@RequestParam String username, @RequestParam String password, HttpSession session) {
+	public @ResponseBody Result<String> login(@RequestParam String username, @RequestParam String password, HttpSession session) {
 		UserCondition condition = new UserCondition();
 		condition.setUsername(username);
 		condition.setPassword(password);

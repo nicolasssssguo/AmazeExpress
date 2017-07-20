@@ -103,9 +103,7 @@
 								}
 							}
 						});
-					}, function() {
-						
-					});
+					}
 					return false;
 				}
 			});

@@ -61,7 +61,7 @@
 							id="express-nav">
 							<li><a href="${pageContext.request.contextPath}/create_express"><i class="am-icon-archive"></i>
 									录入快递 </a></li>
-							<li><a href="#/userList/0"><i class="am-icon-archive"></i>
+							<li><a href="${pageContext.request.contextPath}/express_list"><i class="am-icon-archive"></i>
 									快递列表 </a></li>
 						</ul></li>
 					<li><a
@@ -79,25 +79,7 @@
 			<div class="admin-content-body">
 				<div class="am-cf am-padding">
 					<div class="am-fl am-cf">
-						<strong class="am-text-primary am-text-lg">快递管理</strong> / <small>快递列表</small>
-					</div>
-				</div>
-				<div class="am-g">
-					<div class="am-u-sm-12">
-						<table
-							class="am-table am-table-bd am-table-bordered am-table-centered admin-content-table"
-							id="datatables">
-							<thead>
-								<tr class="am-primary">
-									<th>姓名</th>
-									<th>地址</th>
-									<th>手机号码</th>
-									<th>到达日期</th>
-									<th>状态</th>
-									<th>操作</th>
-								</tr>
-							</thead>
-						</table>
+						<strong class="am-text-primary am-text-lg">首页</strong> / <small></small>
 					</div>
 				</div>
 
@@ -112,12 +94,6 @@
 	<script src="<%=basePath%>resources/js/amazeui.datatables.min.js"></script>
 	<script src="<%=basePath%>resources/js/amazeui.dialog.min.js"></script>
 	<script>
-		$(function() {
-			$('#datatables').DataTable({
-				"dom" : 'tip',
-				"order" : [ [ 1, 'asc' ] ]
-			});
-		});
 	</script>
 </body>
 </html>
