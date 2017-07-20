@@ -20,10 +20,6 @@
 <link rel="stylesheet" href="<%=basePath%>resources/css/amazeui.min.css" />
 <link rel="stylesheet" href="<%=basePath%>resources/css/admin.css" />
 <link rel="stylesheet"
-	href="<%=basePath%>resources/css/amazeui.datatables.min.css" />
-<link rel="stylesheet"
-	href="<%=basePath%>resources/css/buttons.datatables.min.css" />
-<link rel="stylesheet"
     href="<%=basePath%>resources/css/amazeui.datetimepicker.css" />
 </head>
 <body>
@@ -93,6 +89,7 @@
                             id="datatables">
                             <thead>
                                 <tr class="am-primary">
+                                    <th><input type="checkbox" /></th>
                                     <th>姓名</th>
                                     <th>地址</th>
                                     <th>手机号码</th>
@@ -113,7 +110,6 @@
 	<script src="<%=basePath%>resources/js/jquery-1.12.4.min.js"></script>
 	<script src="<%=basePath%>resources/js/amazeui.min.js"></script>
 	<script src="<%=basePath%>resources/js/amazeui.datatables.min.js"></script>
-	<script src="<%=basePath%>resources/js/datatables.buttons.min.js"></script>
 	<script src="<%=basePath%>resources/js/amazeui.datetimepicker.min.js"></script>
 	<script src="<%=basePath%>resources/js/locales/amazeui.datetimepicker.zh-CN.js"></script>
 	<script src="<%=basePath%>resources/js/amazeui.dialog.min.js"></script>
@@ -121,37 +117,49 @@
 	<script>
 	$(function() {
         $('#datatables').DataTable({
-        	'dom': 'Bfrtip',
-            "processing": true,
-            "serverSide": true,
-            'ajax' : '${pageContext.request.contextPath}/express/list.action',
-            'buttons':[{
-            	text: '批量删除',
-			    action: function ( e, dt, node, config ) {
-			        
-			    }
-            },
-            {
-            	text: '批量签收',
-            	action: function ( e, dt, node, config ) {
-            	
-            	}
-            }],
-            'columns':[
-            	{'data':'recipient.name'},
-            	{'data':'area'},
-            	{'data':'recipient.phoneNumber'},
-                {'data':'arriveDate'},
-                {'data':'status'}
-            ],
-            'createdRow': function ( row, data, index ) {
-                if ( data.status == 0) {
-                	$('td', row).eq(4).text('未签收');
-                }else{
-                	$('td', row).eq(4).text('已签收');
+        	dom: '<"toolbar">frtip',
+            processing: true,
+            serverSide: true,
+            ajax : '${pageContext.request.contextPath}/express/list.action',
+            columns:[
+            	{
+            		data: null,
+            		render: function ( data, type, row ) {
+                        return '<input type="checkbox" />';
+                    }
+            	},
+            	{data:'recipient.name'},
+            	{data:'area'},
+            	{data:'recipient.phoneNumber'},
+                {data:'arriveDate'},
+                {
+                	data:'status',
+                	render: function ( data, type, row ) {
+                        return data == 0?'未签收':'已签收';
+                    }
                 }
-            }
+            ],
+            columnDefs: [{
+                targets: '_all',
+                orderable: false
+              }],
+              order : []
         });
+        
+        $("div.toolbar").html(
+        	'<div class="am-fl am-margin-bottom">'+
+	        	'<div class="btn-group" role="group">'+
+	                '<button class="am-btn am-btn-primary" type="button"  disabled>'+
+	                    '<span class="am-icon-pencil-square"></span> 批量签收'+
+	                '</button>'+
+	                '<button class="am-btn am-btn-primary" type="button" disabled>'+
+	                    '<span class="am-icon-trash"></span> 批量删除'+
+	                '</button>'+
+	            '</div>'+
+            '</div>'
+        );
+        
+        $('#datatables_filter').addClass('am-fr');
     });
 	</script>
 </body>
