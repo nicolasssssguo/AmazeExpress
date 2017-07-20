@@ -31,17 +31,16 @@ public class LoginInterceptor implements HandlerInterceptor {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+		HttpSession session = request.getSession();
+		User loginUser = (User) session.getAttribute("LOGIN_USER");
+		if(loginUser != null){
+			return true;
+		}
 		String requestUri = request.getRequestURI();
 		for (String url : excludedUrls) {
 			if (requestUri.endsWith(url)) {
 				return true;
 			}
-		}
-		
-		HttpSession session = request.getSession();
-		User loginUser = (User) session.getAttribute("LOGIN_USER");
-		if(loginUser != null){
-			return true;
 		}
 		request.setAttribute("requestUri", requestUri);
 		request.getRequestDispatcher("/login.jsp").forward(request, response);

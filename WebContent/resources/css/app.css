@@ -1,5 +1,11 @@
 /* Write your styles */
-body, button, input, select, textarea, h1, h2, h3, h4, h5, h6 {
-	font-family: Microsoft YaHei, '宋体', Tahoma, Helvetica, Arial,
-		"\5b8b\4f53", sans-serif;
+.bb-alert {
+    position: fixed;
+    bottom: 25%;
+    right: 0;
+    width: 300px;
+    margin-bottom: 0;
+    font-size: 1.2em;
+    padding: 1em 1.3em;
+    z-index: 2000;
 }

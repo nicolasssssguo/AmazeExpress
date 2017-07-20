@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -147,10 +148,16 @@ public class ExpressAction {
 	}
 
 	@RequestMapping("/list.action")
-	public @ResponseBody Page<Express> expressList(@RequestParam(value = "start", required = false, defaultValue = "0") int start) {
+	public @ResponseBody Page<Express> expressList(@RequestParam(value = "start", required = false, defaultValue = "0") int start,
+			@RequestParam(value = "sSearch", required = false) String queryParam) {
 		Page<Express> pageEntity = new Page<Express>();
 		pageEntity.setStart(start);
 		ExpressCondition condition = new ExpressCondition();
+		if(StringUtils.isNotBlank(queryParam)){
+			if(queryParam.matches("\\d+")){
+				condition.setEndingNumber(queryParam);
+			}
+		}
 		condition.setStartDate(new Date());
 		condition.setEndDate(new Date());
 		pageEntity = expressService.findExpressByCondition(condition, pageEntity);
