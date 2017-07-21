@@ -45,7 +45,7 @@
 	$(function() {
 		$.fn.dataTable.ext.legacy.ajax = true;
         $('#datatables').DataTable({
-        	dom: '<"toolbar">frtip',
+        	dom: '<"am-btn-toolbar am-fl">frtip',
             processing: true,
             serverSide: true,
             ajax : '${pageContext.request.contextPath}/express/list.action',
@@ -109,8 +109,8 @@
             }
         });
         
-        $("div.toolbar").html(
-        	'<div class="am-fl am-margin-bottom">'+
+        $("div.am-btn-toolbar").html(
+        	'<div class="am-margin-bottom">'+
 	        	'<div class="btn-group" role="group">'+
 	                '<button class="am-btn am-btn-primary" type="button"  disabled>'+
 	                    '<span class="am-icon-pencil-square"></span> 批量签收'+
@@ -118,6 +118,7 @@
 	                '<button class="am-btn am-btn-primary" type="button" disabled>'+
 	                    '<span class="am-icon-trash"></span> 批量删除'+
 	                '</button>'+
+	                '<div class="am-form-group am-margin-left"><label><input type="checkbox" autocomplete="off" checked />只显示今日</label><div>'+
 	            '</div>'+
             '</div>'
         );
