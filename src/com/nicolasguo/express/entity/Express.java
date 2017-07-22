@@ -12,6 +12,8 @@ import javax.persistence.TemporalType;
 @Table(name = "tb_express")
 public class Express extends BaseEntityObject {
 
+	private static final long serialVersionUID = -5359786853935821785L;
+
 	private Customer recipient;
 
 	private String area;

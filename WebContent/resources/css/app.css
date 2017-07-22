@@ -9,3 +9,6 @@
     padding: 1em 1.3em;
     z-index: 2000;
 }
+table.dataTable thead>tr>th {
+    padding: .7rem;
+}

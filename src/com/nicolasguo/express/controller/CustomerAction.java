@@ -4,22 +4,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
-
 import javax.annotation.Resource;
-
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nicolasguo.express.condition.impl.CustomerCondition;
 import com.nicolasguo.express.condition.impl.ExpressCondition;
-import com.nicolasguo.express.entity.Area;
 import com.nicolasguo.express.entity.Customer;
 import com.nicolasguo.express.entity.Express;
 import com.nicolasguo.express.entity.Page;
-import com.nicolasguo.express.service.AreaService;
 import com.nicolasguo.express.service.CustomerService;
 import com.nicolasguo.express.service.ExpressService;
 import com.nicolasguo.express.util.UUID;
@@ -34,19 +33,22 @@ public class CustomerAction {
 	@Resource(name = "expressService")
 	private ExpressService<Express, String> expressService;
 
-	@RequestMapping("/index")
-	public ModelAndView index(@RequestParam(value = "pageNo", defaultValue = "01", required = false) int start) {
+	@RequestMapping("/list.do")
+	public @ResponseBody Page<Customer> index(@RequestParam(value = "iDisplayStart", required = false, defaultValue = "0") int start,
+			@RequestParam(value = "sSearch", required = false) String queryParam) {
 		Page<Customer> pageEntity = new Page<Customer>();
 		pageEntity.setStart(start);
 		CustomerCondition condition = new CustomerCondition();
+		if(StringUtils.isNotBlank(queryParam)){
+			if(queryParam.matches("\\d+")){
+				condition.setEndingNumber(queryParam);
+			}
+		}
 		pageEntity = customerService.findCustomerByCondition(condition, pageEntity);
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("customer");
-		mav.addObject("customerPage", pageEntity);
-		return mav;
+		return pageEntity;
 	}
 
-	@RequestMapping(value = "/create.action", produces = "text/html;charset=UTF-8")
+	@RequestMapping(value = "/create.do", produces = "text/html;charset=UTF-8")
 	public @ResponseBody String createCustomer(@RequestParam("name") String name,
 			@RequestParam("phoneNumber") String phoneNumber, @RequestParam("area") String area) {
 		String message = "success";
@@ -64,8 +66,20 @@ public class CustomerAction {
 		}
 		return message;
 	}
+	
+	@RequestMapping("/edit.do/{id}")
+	public ModelAndView editCustomer(@PathVariable String id, @RequestParam String url, RedirectAttributes attributes){
+		ModelAndView mav = new ModelAndView();
+		Customer customer = customerService.getCustomer(id);
+		if(customer != null){
+			attributes.addFlashAttribute("url", url);
+			attributes.addFlashAttribute("customer", customer);
+			mav.setViewName("redirect:/customer/edit");
+		}
+		return mav;
+	}
 
-	@RequestMapping(value = "/update.action", produces = "text/html;charset=UTF-8")
+	@RequestMapping(value = "/update.do", produces = "text/html;charset=UTF-8")
 	public @ResponseBody String updateCustomer(@RequestParam("id") String id, @RequestParam("name") String name,
 			@RequestParam("phoneNumber") String phoneNumber, @RequestParam("area") String area) {
 		String message = "success";
@@ -88,7 +102,7 @@ public class CustomerAction {
 		return message;
 	}
 
-	@RequestMapping("/remove.action")
+	@RequestMapping("/remove.do")
 	public @ResponseBody String removeCustomer(@RequestParam("ids[]") List<String> ids) {
 		CustomerCondition customerCondition = new CustomerCondition();
 		ExpressCondition expressCondition = new ExpressCondition();
@@ -107,34 +121,19 @@ public class CustomerAction {
 		return "success";
 	}
 
-	@RequestMapping("/retrieve.action")
+	@RequestMapping("/retrieve.do")
 	public @ResponseBody Customer retrieveCustomer(@RequestParam String id) {
 		Customer customer = customerService.getCustomer(id);
 		return customer;
 	}
 
-	@RequestMapping("/searchbykeynum.action")
-	public @ResponseBody List<Customer> searchByKeynumber(@RequestParam String keynumber) {
+	@RequestMapping("/search.do")
+	public @ResponseBody List<Customer> searchByKeynumber(@RequestParam String endingNumber) {
 		CustomerCondition condition = new CustomerCondition();
-		condition.setKeynumber(keynumber);
+		condition.setEndingNumber(endingNumber);
 		List<String> result = new ArrayList<String>();
 		List<Customer> customerList = customerService.findCustomerByCondition(condition);
 		customerList.forEach(customer -> result.add(customer.toString()));
 		return customerList;
-	}
-
-	@RequestMapping("/search.action")
-	public ModelAndView searchCustomer(@RequestParam(value="name", required=false) String name, @RequestParam String phoneNumber,
-			@RequestParam(value = "pageNo", defaultValue = "0", required = false) int start) {
-		Page<Customer> pageEntity = new Page<Customer>();
-		pageEntity.setStart(start);
-		CustomerCondition condition = new CustomerCondition();
-		condition.setName(name);
-		condition.setPhoneNumber(phoneNumber);
-		pageEntity = customerService.findCustomerByCondition(condition, pageEntity);
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("customer");
-		mav.addObject("customerPage", pageEntity);
-		return mav;
 	}
 }

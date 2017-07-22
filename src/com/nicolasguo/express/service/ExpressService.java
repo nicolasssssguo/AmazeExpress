@@ -18,7 +18,6 @@ public interface ExpressService<T, PK extends Serializable> {
 
 	public List<T> findExpressByProperty(String propertyName, Object propertyValue);
 	
-	@SuppressWarnings("rawtypes")
 	public List<T> findExpressByCondition(ExpressCondition condition);
 	
 	public Page<T> findExpressByCondition(ExpressCondition condition, Page<T> page);

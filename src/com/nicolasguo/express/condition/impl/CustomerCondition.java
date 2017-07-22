@@ -16,20 +16,20 @@ public class CustomerCondition extends HibernateCondition<Customer> {
 
 	private String phoneNumber;
 
-	private String keynumber;
+	private String endingNumber;
 
 	private List<String> ids;
 
 	@Override
 	public void createCriteria(DetachedCriteria criteria) {
-		if(StringUtils.isNoneEmpty(name)){
+		if (StringUtils.isNoneEmpty(name)) {
 			criteria.add(Restrictions.eq("name", name));
 		}
-		if(phoneNumber != null){
+		if (phoneNumber != null) {
 			criteria.add(Restrictions.like("phoneNumber", phoneNumber, MatchMode.ANYWHERE));
 		}
-		if (keynumber != null) {
-			criteria.add(Restrictions.like("phoneNumber", keynumber, MatchMode.END));
+		if (endingNumber != null) {
+			criteria.add(Restrictions.like("phoneNumber", endingNumber, MatchMode.END));
 		}
 		if (ids != null) {
 			criteria.add(Restrictions.in("id", ids));
@@ -44,8 +44,8 @@ public class CustomerCondition extends HibernateCondition<Customer> {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public void setKeynumber(String keynumber) {
-		this.keynumber = keynumber;
+	public void setEndingNumber(String endingNumber) {
+		this.endingNumber = endingNumber;
 	}
 
 	public void setIds(List<String> ids) {

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
@@ -20,7 +22,7 @@
 <link rel="stylesheet" href="<%=basePath%>resources/css/amazeui.min.css" />
 <link rel="stylesheet" href="<%=basePath%>resources/css/admin.css" />
 <link rel="stylesheet"
-    href="<%=basePath%>resources/css/amazeui.datetimepicker.css" />
+    href="<%=basePath%>resources/css/amazeui.datatables.min.css" />
 <link rel="stylesheet"
     href="<%=basePath%>resources/css/app.css" />
 </head>
@@ -38,13 +40,7 @@
 					href="javascript:;"> <span class="am-icon-users"></span>
 						${sessionScope.LOGIN_USER.loginName} <span
 						class="am-icon-caret-down"></span>
-				</a>
-					<ul class="am-dropdown-content">
-						<li><a href="#"><span class="am-icon-user"></span> 资料</a></li>
-						<li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
-						<li><a href="#"><span class="am-icon-power-off"></span>
-								退出</a></li>
-					</ul></li>
+				</a></li>
 			</ul>
 		</div>
 	</header>
@@ -59,18 +55,27 @@
                             class="am-icon-archive"></i> 快递管理 <i
                             class="am-icon-angle-right am-fr am-margin-right"></i>
                     </a>
-                        <ul class="am-list admin-sidebar-sub am-collapse am-in"
+                        <ul class="am-list admin-sidebar-sub am-collapse<c:if test="${module=='express'}"> am-in</c:if>"
                             id="express-nav">
-                            <li><a href="${pageContext.request.contextPath}/create_express"><i class="am-icon-archive"></i>
+                            <li><a href="${pageContext.request.contextPath}/express/create"><i class="am-icon-archive"></i>
                                     录入快递 </a></li>
-                            <li><a href="${pageContext.request.contextPath}/express_list"><i class="am-icon-archive"></i>
+                            <li><a href="${pageContext.request.contextPath}/express/list"><i class="am-icon-archive"></i>
                                     快递列表 </a></li>
                         </ul></li>
+                    <li class="am-panel"><a
+                        data-am-collapse="{target: '#customer-nav'}"> <i
+                            class="am-icon-users"></i> 客户管理 <i
+                            class="am-icon-angle-right am-fr am-margin-right"></i>
+                    </a>
+                        <ul class="am-list admin-sidebar-sub am-collapse<c:if test="${module=='customer'}"> am-in</c:if>"
+                            id="customer-nav">
+                            <li><a href="${pageContext.request.contextPath}/customer/create"><i class="am-icon-users"></i>
+                                    增加客户 </a></li>
+                            <li><a href="${pageContext.request.contextPath}/customer/list"><i class="am-icon-users"></i>
+                                    客户列表 </a></li>
+                        </ul></li>
 					<li><a
-						href="${pageContext.request.contextPath}/customer/admin"><span
-							class="am-icon-user"></span> 客户管理 </a></li>
-					<li><a
-						href="${pageContext.request.contextPath}/user/logout.action"><span
+						href="${pageContext.request.contextPath}/user/logout.do"><span
 							class="am-icon-sign-out"></span> 注销</a></li>
 				</ul>
 			</div>

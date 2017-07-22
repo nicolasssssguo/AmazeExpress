@@ -70,4 +70,5 @@
 	    <error-code>404</error-code>  
 	    <location>/WEB-INF/view/common/404.jsp</location>  
 	</error-page>
+	<welcome-file-list>login.jsp</welcome-file-list>
 </web-app>

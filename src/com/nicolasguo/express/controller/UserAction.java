@@ -24,7 +24,7 @@ public class UserAction {
 	@Resource(name = "userService")
 	private UserService<User, String> userService;
 
-	@RequestMapping(value = "/login.action", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+	@RequestMapping(value = "/login.do", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
 	public @ResponseBody Result<String> login(@RequestParam String username, @RequestParam String password, HttpSession session) {
 		UserCondition condition = new UserCondition();
 		condition.setUsername(username);
@@ -37,7 +37,7 @@ public class UserAction {
 		return new Result<String>(HttpStatus.BAD_REQUEST.value(), "用户名或密码错误");
 	}
 
-	@RequestMapping("/logout.action")
+	@RequestMapping("/logout.do")
 	public String login(HttpSession session) {
 		session.invalidate();
 		return "redirect:/login.jsp";

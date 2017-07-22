@@ -8,6 +8,8 @@ import javax.persistence.Table;
 @Table(name = "tb_customer")
 public class Customer extends BaseEntityObject {
 
+	private static final long serialVersionUID = 8647917616317987920L;
+
 	private String name;
 
 	private String phoneNumber;

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="common/header.jsp" %>
+<%@ include file="../common/header.jsp" %>
 
 		<div class="admin-content">
 			<div class="admin-content-body">
@@ -15,27 +15,38 @@
 							<div class="am-panel-hd">录入快递</div>
 							<div class="am-panel-bd">
 								<form class="am-form" id="express-form"
-									action="${pageContext.request.contextPath}/express/create.action"
+									action="${pageContext.request.contextPath}/express/create.do"
 									method="POST">
 									<div class="am-g">
 										<div class="am-u-sm-12">
 											<div class="am-form-group">
-												<label for="name">姓名:</label> <input type="text"
+												<label for="name">姓名:</label> <input id="name" type="text"
 													name="name" minlength="3" placeholder="输入姓名" required />
 											</div>
 											<div class="am-form-group">
-												<label for="phone_number">手机号码:</label> <input class="js-pattern-mobile" type="text"
-													name="phone_number" placeholder="输入手机号码" required />
+												<label for="phone_number">手机号码:</label> <input class="js-pattern-mobile" id="phone-number" type="text"
+													name="phone_number" placeholder="输入手机号码" autofocus autocomplete="off" required />
 											</div>
 											<div class="am-form-group">
-												<label for="name">地址:</label> <select class="area" name="area" placeholder="地址" data-parent="350681110000" required></select>
+												<label for="name">地址:</label> <select id="area" class="" name="area" data-am-selected="{btnWidth: '100%'}" data-parent="350681110000" required></select>
 											</div>
 											<div class="am-form-group">
 												<label for="phone_number">日期:</label>
-												<div class="am-input-group date">
+												<div class="am-input-group am-datepicker-date" data-am-datepicker>
 												  <input class="am-form-field" name="arrive_date" type="text" readonly required>
-												  <span class="am-input-group-label add-on"><i class="icon-th am-icon-calendar"></i></span>
+												  <span class="am-input-group-btn am-datepicker-add-on">
+												  	<button class="am-btn am-btn-default" type="button"><span class="am-icon-calendar"></span> </button>
+												  </span>
 												</div>
+											</div>
+											<div class="am-form-group">
+												<label for="phone_number">状态:</label>
+												<label class="am-radio-inline">
+													<input type="radio" name="status" value="0" checked> 未签收
+												</label>
+												<label class="am-radio-inline">
+													<input type="radio" name="status" value="1"> 已签收
+												</label>
 											</div>
 											<button class="am-btn am-btn-primary am-btn-lg am-btn-block" type="submit">录入</button>
 										</div>
@@ -55,16 +66,15 @@
 	<script src="<%=basePath%>resources/js/jquery-1.12.4.min.js"></script>
 	<script src="<%=basePath%>resources/js/amazeui.min.js"></script>
 	<script src="<%=basePath%>resources/js/amazeui.datatables.min.js"></script>
-	<script src="<%=basePath%>resources/js/amazeui.datetimepicker.min.js"></script>
-	<script src="<%=basePath%>resources/js/locales/amazeui.datetimepicker.zh-CN.js"></script>
 	<script src="<%=basePath%>resources/js/amazeui.dialog.min.js"></script>
 	<script src="<%=basePath%>resources/js/area.js"></script>
+	<script src="<%=basePath%>resources/js/typeahead.js"></script>
 	<script>
 	if ($.AMUI && $.AMUI.validator) {
 	    $.AMUI.validator.patterns.mobile = /^1((3|5|8){1}\d{1}|70)\d{8}$/;
 	  }
 		$(function() {
-			$select = $('select.area');
+			$select = $('#area');
 			var parent = $select.attr('data-parent');
 			$.each(area, function(index, data){
 				if(data.parent == parent){
@@ -110,15 +120,25 @@
 					return false;
 				}
 			});
+			
+			$('#phone-number').typeahead({
+				source: function(number, process) {
+		            return $.post('${pageContext.request.contextPath}/customer/search.do',{endingNumber:number},
+		            function(data) {
+		                return process(data);
+		            });
+		        },
+		        displayText: function(item) {
+		            return typeof item !== 'undefined' && typeof item.phoneNumber != 'undefined' ? item.phoneNumber: item;
+		        },
+		        afterSelect: function(item) {
+		        	$select.val(item.area);
+		        	$('#name').val(item.name);
+		        },
+		        delay: 300
+			});
 		});
-		$('.date').datetimepicker({
-			language:  'zh-CN',
-			format: 'yyyy-mm-dd',
-			autoclose: true,
-			todayBtn: true,
-			endDate:new Date()
-		}).datetimepicker('update', new Date());
-		
+		$('.am-datepicker-date').datepicker('setValue', new Date());
 	</script>
 </body>
 </html>

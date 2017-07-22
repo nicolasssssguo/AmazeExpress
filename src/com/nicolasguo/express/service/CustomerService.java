@@ -14,10 +14,8 @@ public interface CustomerService<T, PK extends Serializable> {
 
 	public List<T> findCustomerByProperty(String propertyName, Object propertyValue);
 	
-	@SuppressWarnings("rawtypes")
 	public List<T> findCustomerByCondition(CustomerCondition condition);
 	
-	@SuppressWarnings("rawtypes")
 	public Page<T> findCustomerByCondition(CustomerCondition condition, Page<T> page);
 
 	public void updateCustomer(T entity);

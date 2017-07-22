@@ -58,7 +58,7 @@ dialog.confirm = function(options) {
   html.push('</div>');
 
   return $(html.join('')).appendTo('body').modal({
-    onConfirm: function(options) {
+    onConfirm: function() {
       options.onConfirm();
     },
     onCancel: function() {

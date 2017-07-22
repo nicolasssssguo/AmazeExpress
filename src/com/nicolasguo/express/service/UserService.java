@@ -13,7 +13,6 @@ public interface UserService<T, PK extends Serializable> {
 
 	public List<T> findUserByProperty(String propertyName, String propertyValue);
 
-	@SuppressWarnings("rawtypes")
 	public List<T> findUserByCondition(UserCondition condition);
 
 	public void updateUser(T entity);

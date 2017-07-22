@@ -2,10 +2,8 @@ package com.nicolasguo.express.common;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import com.nicolasguo.express.dao.IBaseEntityDao;
 import com.nicolasguo.express.dao.impl.BaseEntityDaoImpl;
-import com.nicolasguo.express.entity.Area;
 import com.nicolasguo.express.entity.Customer;
 import com.nicolasguo.express.entity.Express;
 import com.nicolasguo.express.entity.User;

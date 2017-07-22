@@ -29,7 +29,7 @@
 					<!-- end of panel-heading -->
 					<div class="am-panel-bd">
 						<form class="am-form" id="login-form"
-							action="${pageContext.request.contextPath}/user/login.action"
+							action="${pageContext.request.contextPath}/user/login.do"
 							method="POST">
 							<div class="am-text-center">
 								<img src="<%=basePath%>resources/i/logo.png" width="100"
@@ -61,8 +61,8 @@
 	<script src="<%=basePath%>resources/js/amazeui.min.js"></script>
 	<script src="<%=basePath%>resources/js/amazeui.dialog.min.js"></script>
 	<script>
-		var $requestUri = '${requestUri}';
-		$requestUri = $requestUri ? $requestUri
+		var $url = '${url}';
+		$url = $url ? $url
 				: '${pageContext.request.contextPath}/admin';
 		$(function() {
 			var $form = $('#login-form');
@@ -84,7 +84,7 @@
 							success : function(result) {
 								$.AMUI.progress.done();
 								if (result.code == 200) {//验证成功
-									window.location.href = $requestUri;
+									window.location.href = $url;
 								} else if (result.code == 400) {//验证失败
 								      if (!animating) {
 								          animating = true;

@@ -42,7 +42,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 				return true;
 			}
 		}
-		request.setAttribute("requestUri", requestUri);
+		request.setAttribute("url", requestUri);
 		request.getRequestDispatcher("/login.jsp").forward(request, response);
 		return false;
 	}
